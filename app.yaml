@@ -1,0 +1,23 @@
+name: companion-agent
+region: nyc
+services:
+  - name: nanobot
+    dockerfile_path: Dockerfile
+    source_dir: /
+    github:
+      branch: main
+      deploy_on_push: true
+      repo: nanobotai/nanobot
+    http_port: 8080
+    instance_count: 1
+    instance_size_slug: apps-s-1vcpu-0.5gb
+    routes:
+      - path: /
+    envs:
+      - key: OPENAI_API_KEY
+        value: "${OPENROUTER_API_KEY}"
+        type: SECRET
+      - key: OPENAI_BASE_URL
+        value: "https://openrouter.ai/api/v1"
+      - key: NANOBOT_CONFIG
+        value: "/workspace/companion-agent.yaml"
